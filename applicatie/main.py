@@ -1,11 +1,10 @@
-from flask import Flask
+from flask import Flask, redirect, url_for, render_template
 
 app = Flask(__name__)
 
 @app.route("/")
-
 def home():
-    return "Fakka! dit is de main page <h1>HELLO<h1>"
+    return render_template("test.html")
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
