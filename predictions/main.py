@@ -3,6 +3,9 @@ import numpy as np
 from sklearn.metrics import mean_squared_error
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
+import seaborn as sns
+import matplotlib.pyplot as plt
+import datetime
 
 #inlezen data
 data = pd.read_csv('../files/sap_storing_data_hu_subset.csv', low_memory=False)
@@ -16,10 +19,10 @@ def dropData(selected_column, threshold):
 def stringToDatetime(column):
     data[column] = pd.to_datetime(data[column])
 
-
-def linearRegression():
-    x = data[['stm_sap_meld_ddt', 'stm_geo_mld', 'stm_prioriteit', 'stm_oorz_code']]
-    y = data[["stm_fh_duur"]]
+#def linearRegression(features, target, pltTitle, xTitle, yTitle, xMin, xMax, yMin, yMax):
+def linearRegression(features, target):
+    x = features
+    y = target
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, random_state = 0)
 
@@ -44,4 +47,17 @@ toConvertList = ['stm_sap_meld_ddt', 'stm_fh_ddt', 'stm_sap_storeind_ddt', 'stm_
 for i in toConvertList:
     stringToDatetime(i)
 
-linearRegression()
+#linearRegression
+data['stm_oorz_code'] = data['stm_oorz_code'].replace(np.nan, 0)
+data['month'] = pd.DatetimeIndex(data['stm_sap_meld_ddt']).month
+data['hour'] = pd.DatetimeIndex(data['stm_sap_meld_ddt']).hour
+
+# sns.pairplot(data[['month', 'stm_geo_mld', 'stm_prioriteit', 'stm_oorz_code']])
+# print(data[['month', 'stm_geo_mld', 'stm_prioriteit', 'stm_oorz_code']].corr())
+# plt.show()
+
+# features = data[['month', 'stm_geo_mld', 'stm_prioriteit', 'stm_oorz_code']]
+features = data[['month', 'hour', 'stm_geo_mld', 'stm_prioriteit', 'stm_oorz_code']]
+target = data[["stm_fh_duur"]]
+linearRegression(features, target)
+
