@@ -1,7 +1,10 @@
 import pandas as pd
 import numpy as np
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.linear_model import LinearRegression
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -40,6 +43,40 @@ def linearRegression(features, target):
     print('rmse', np.sqrt(mean_squared_error(y_test, y_pred)))
 
 
+def DecisionTreeR(features, target):
+    x = features
+    y = target
+
+    x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0)
+
+    decision_tree_r = DecisionTreeRegressor(max_depth=12)
+    decision_tree_r.fit(x_train, y_train)
+
+    y_pred = decision_tree_r.predict(x_test)
+    print(y_pred)
+    print(y_test)
+
+    print('score ', r2_score(y_test, y_pred))
+    print('rsme ', mean_squared_error(y_test, y_pred))
+
+
+def DecisionTreeC(features, target):
+    x = features
+    y = target
+
+    x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0)
+
+    decision_tree_r = DecisionTreeClassifier(max_depth=10)
+    decision_tree_r.fit(x_train, y_train)
+
+    y_pred = decision_tree_r.predict(x_test)
+    print(y_pred)
+    print(y_test)
+
+    print('score ', accuracy_score(y_test, y_pred))
+
+
+
 #data preperation
 dropData('stm_fh_duur', 360)
 toConvertList = ['stm_sap_meld_ddt', 'stm_fh_ddt', 'stm_sap_storeind_ddt', 'stm_sap_melddatum', 'stm_aanngeb_dd',
@@ -57,10 +94,11 @@ data['hour'] = pd.DatetimeIndex(data['stm_sap_meld_ddt']).hour
 # plt.show()
 
 # features = data[['month', 'stm_prioriteit', 'stm_oorz_code']]
-features = data[['month', 'hour', 'stm_prioriteit', 'stm_km_tot_mld']]
+features = data[['month', 'hour', 'stm_prioriteit', 'stm_km_tot_mld', 'stm_km_van_mld', 'stm_oorz_code']]
 target = data[["stm_fh_duur"]]
-linearRegression(features, target)
+# linearRegression(features, target)
 
+DecisionTreeC(features, target)
 
 
 
