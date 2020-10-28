@@ -56,8 +56,11 @@ data['hour'] = pd.DatetimeIndex(data['stm_sap_meld_ddt']).hour
 # print(data[['month', 'stm_geo_mld', 'stm_prioriteit', 'stm_oorz_code']].corr())
 # plt.show()
 
-# features = data[['month', 'stm_geo_mld', 'stm_prioriteit', 'stm_oorz_code']]
-features = data[['month', 'hour', 'stm_geo_mld', 'stm_prioriteit', 'stm_oorz_code']]
+# features = data[['month', 'stm_prioriteit', 'stm_oorz_code']]
+features = data[['month', 'hour', 'stm_prioriteit', 'stm_km_tot_mld']]
 target = data[["stm_fh_duur"]]
 linearRegression(features, target)
+
+
+
 
