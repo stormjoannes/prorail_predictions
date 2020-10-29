@@ -1,0 +1,20 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.vis_block {
+    background: red;
+}
+
+.clock {
+    width: 350px;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    border-radius: 50%;
+    border: 20px solid white;
+}
+
