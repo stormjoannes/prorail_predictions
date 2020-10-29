@@ -49,7 +49,7 @@ def DecisionTreeR(features, target):
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0)
 
-    decision_tree_r = DecisionTreeRegressor(max_depth=12)
+    decision_tree_r = DecisionTreeRegressor(max_depth=5)
     decision_tree_r.fit(x_train, y_train)
 
     y_pred = decision_tree_r.predict(x_test)
@@ -95,11 +95,8 @@ data['hour'] = pd.DatetimeIndex(data['stm_sap_meld_ddt']).hour
 # plt.show()
 
 # features = data[['month', 'stm_prioriteit', 'stm_oorz_code']]
-features = data[['month', 'hour', 'stm_prioriteit', 'stm_km_tot_mld', 'stm_km_van_mld', 'stm_oorz_code']]
+features = data[['month', 'hour', 'stm_prioriteit', 'stm_km_tot_mld', 'stm_km_van_mld', 'stm_oorz_code', 'stm_reactie_duur', 'stm_geo_mld']]
 target = data[["stm_fh_duur"]]
 # linearRegression(features, target)
 
-DecisionTreeC(features, target)
-
-
-
+DecisionTreeR(features, target)
