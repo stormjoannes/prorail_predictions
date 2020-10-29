@@ -10,7 +10,7 @@
         <div class="container">
             <div class="model_box">
                 <div class="input_box">
-                    <form class="form">
+                    <form class="form" action="#" method="post">
                         <label class="input_title"> Locatie </label>
                         <input type="text" class="input_feature" name="locatie">
                         <label class="input_title"> Tijd </label>
@@ -21,7 +21,7 @@
 
                 <div class="output_box">
                     <div class="output_score">
-                        De duur is: XX minuten{% block time %}{% endblock %}
+                        De duur is: XX minuten{% block time %}  {% endblock %}
                     </div>
                     <div class="output_text">Gebaseerd op onze features</div>
                 </div>
