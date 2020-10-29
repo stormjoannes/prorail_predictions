@@ -66,7 +66,7 @@ def DecisionTreeC(features, target):
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0)
 
-    decision_tree_r = DecisionTreeClassifier(max_depth=10)
+    decision_tree_r = DecisionTreeClassifier(max_depth=10, random_state=0)
     decision_tree_r.fit(x_train, y_train)
 
     y_pred = decision_tree_r.predict(x_test)
@@ -74,6 +74,7 @@ def DecisionTreeC(features, target):
     print(y_test)
 
     print('score ', accuracy_score(y_test, y_pred))
+    print('rsme ', mean_squared_error(y_test, y_pred))
 
 
 
