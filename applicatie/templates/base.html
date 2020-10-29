@@ -2,24 +2,48 @@
         <head>
             <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"/>
             <title>My website</title>
-        </head> 
+        </head>
     <body>
-        <h1>Titel</h1>
-        <p>Feature</p>
-        <p>Feature</p>
-        <p>Feature</p>
-        <p>Feature</p>
-        <p>Feature</p>
-        <div class="vis_block">
-            <div class="clock">
+        <div class="header">
+            <h1>Titel</h1>
+        </div>
+        <div class="container">
+            <div class="model_box">
+                <div class="input_box">
+                    <form class="form">
+                        <input type="text" class="input_feature" name="locatie">
+                        <input type="text" class="input_feature" name="tijd">
+                        <input type="submit" class="submit_button" value="Bereken">
+                    </form>
+                </div>
+
+                <div class="output_box">
+                    <div class="output_score">
+                        {% block score %}
+                        {% endblock %}
+                    </div>
+                    <div class="output_text">HOI</div>
+                </div>
             </div>
-        <div class="table_box">
-            <table>
-                TABLE
-            </table>
+            <div class="vis_block">
+                <div class="clock">
+                    <div class="hour">
+                        <div class="hr" id="hr"></div>
+                    </div>
+                    <div class="min">
+                        <div class="mn" id="mn"></div>
+                    </div>
+                    <div class="target">
+                        <div class="tg"></div>
+                    </div>
+                </div>
+                <div class="table_box">
+                    <table>
+                        TABLE
+                    </table>
+                </div>
+            </div>
         </div>
-        </div>
-        <p>score</p>
-        <p>onderbouwing/betrouwbaarheidscore</p>
     </body>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/clock.js') }}"></script>
 </html>
