@@ -9,6 +9,7 @@ body {
     display: flex;
     justify-content: center;
     height: 10%;
+    color: white;
     background: lightseagreen;
 }
 
@@ -41,6 +42,10 @@ body {
     align-items: flex-start;
     width: 100%;
     margin-top: 5%;
+}
+
+.input_title {
+    margin: 5px 0 0 5%;
 }
 
 .input_feature {
@@ -82,12 +87,26 @@ body {
     transition: ease-out .5s;
 }
 
+.output_box {
+    background: lightseagreen;
+    color: white;
+    height: 40%;
+    width: 60%;
+    margin: 0 auto;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.output_score {
+    margin: 2% 0 5% 0;
+}
+
 .vis_block {
     display: flex;
     background: rgba(192,192,192,.3);
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     border-radius: 5px;
     width: 25%;
     height: 85%;
@@ -100,6 +119,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 10% auto 0;
     background: white url('../images/clock.png');
     background-size: cover;
     border-radius: 50%;
@@ -166,5 +186,14 @@ body {
     border-radius: 6px 6px 0 0;
 }
 
+.table_box {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 10%;
+    width: 80%;
+    height: 35%;
+    border-radius: 5px;
+    background: white;
 
+}
 

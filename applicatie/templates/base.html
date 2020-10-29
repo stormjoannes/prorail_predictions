@@ -11,18 +11,19 @@
             <div class="model_box">
                 <div class="input_box">
                     <form class="form">
+                        <label class="input_title"> Locatie </label>
                         <input type="text" class="input_feature" name="locatie">
-                        <input type="text" class="input_feature" name="tijd">
+                        <label class="input_title"> Tijd </label>
+                        <input type="datetime-local" class="input_feature" name="tijd">
                         <input type="submit" class="submit_button" value="Bereken">
                     </form>
                 </div>
 
                 <div class="output_box">
                     <div class="output_score">
-                        {% block score %}
-                        {% endblock %}
+                        De duur is: XX minuten{% block time %}{% endblock %}
                     </div>
-                    <div class="output_text">HOI</div>
+                    <div class="output_text">Gebaseerd op onze features</div>
                 </div>
             </div>
             <div class="vis_block">
@@ -39,7 +40,11 @@
                 </div>
                 <div class="table_box">
                     <table>
-                        TABLE
+                        <tr>
+                            <th>Feature 1</th>
+                            <th>Feature 2</th>
+                            <th>Feature 3</th>
+                        </tr>
                     </table>
                 </div>
             </div>
