@@ -5,7 +5,7 @@
         </head>
     <body>
         <div class="header">
-            <h1>Titel</h1>
+            <h1>Supercoole titel</h1>
         </div>
         <div class="container">
             <div class="model_box">
@@ -14,7 +14,7 @@
                         <label class="input_title"> Locatie </label>
                         <input type="text" class="input_feature" name="locatie">
                         <label class="input_title"> Tijd </label>
-                        <input type="datetime-local" class="input_feature" name="tijd">
+                        <input type="time" class="input_feature" name="tijd">
                         <input type="submit" class="submit_button" value="Bereken">
                     </form>
                 </div>
@@ -39,12 +39,19 @@
                     </div>
                 </div>
                 <div class="table_box">
-                    <table>
-                        <tr>
-                            <th>Feature 1</th>
-                            <th>Feature 2</th>
-                            <th>Feature 3</th>
+                    <table class="table">
+                        <tr class="table_header">
+                            <th class="column_name">Feature 1</th>
+                            <th class="column_name">Feature 2</th>
+                            <th class="column_name">Feature 3</th>
                         </tr>
+                        {% for row in table %}
+                            <tr class="table_row">
+                                {% for item in row %}
+                                    <td class="table_item">{{item}}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
                     </table>
                 </div>
             </div>
