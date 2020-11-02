@@ -35,7 +35,7 @@
                         <div class="mn" id="mn"></div>
                     </div>
                     <div class="target">
-                        <div class="tg"></div>
+                        <div class="tg" id="tg"></div>
                     </div>
                 </div>
                 <div class="table_box">
@@ -50,6 +50,7 @@
                                 {% for item in row %}
                                     <td class="table_item">{{item}}</td>
                                 {% endfor %}
+                                <td class="duration">20</td>
                             </tr>
                         {% endfor %}
                     </table>

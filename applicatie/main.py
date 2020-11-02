@@ -13,7 +13,6 @@ def home():
             table_location = request.form["locatie"]
             table_time = request.form["tijd"]
             # table_item = [table_location, table_time]
-            # print(table_item)
             return redirect(url_for("add_to_table", time=table_time, location=table_location))
         else:
             return render_template("base.html", table=session['table'])
@@ -23,7 +22,7 @@ def home():
 def add_to_table():
     location = request.args['location']
     time = request.args['time']
-    ti = [location, time, 20]
+    ti = [location, time]
     if "table" in session:
         new_array = session['table']
         if ti is not None:
@@ -32,6 +31,7 @@ def add_to_table():
         return redirect(url_for("home"))
     else:
         return redirect(url_for("home"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
