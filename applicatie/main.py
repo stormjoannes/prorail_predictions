@@ -3,11 +3,11 @@ from flask import Flask, redirect, url_for, render_template, request, session
 app = Flask(__name__)
 app.secret_key = "StormIsDik"
 
-
 @app.route("/", methods= ["POST", "GET"])
 def home():
     if 'table' not in session:
         session['table'] = []
+        return render_template("base.html", table=session['table'])
     else:
         if request.method == "POST":
             table_location = request.form["locatie"]
@@ -16,7 +16,6 @@ def home():
             return redirect(url_for("add_to_table", time=table_time, location=table_location))
         else:
             return render_template("base.html", table=session['table'])
-
 
 @app.route("/table")
 def add_to_table():
