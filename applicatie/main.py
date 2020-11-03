@@ -3,25 +3,30 @@ from flask import Flask, redirect, url_for, render_template, request, session
 app = Flask(__name__)
 app.secret_key = "StormIsDik"
 
-@app.route("/", methods= ["POST", "GET"])
+
+@app.route("/", methods=["POST", "GET"])
 def home():
     if 'table' not in session:
         session['table'] = []
         return render_template("base.html", table=session['table'])
     else:
         if request.method == "POST":
-            table_location = request.form["locatie"]
-            table_time = request.form["tijd"]
-            # table_item = [table_location, table_time]
-            return redirect(url_for("add_to_table", time=table_time, location=table_location))
+            distance = request.form["kmtm"]
+            date = request.form["datum"]
+            pi = request.form["pi"]
+            oc = request.form["oc"]
+
+            features = [distance, date, pi, oc]
+
+            return render_template("base.html")
         else:
             return render_template("base.html", table=session['table'])
 
-@app.route("/table")
+
 def add_to_table():
     location = request.args['location']
     time = request.args['time']
-    ti = [location, time]
+    ti = {"location": location, "time": time, "duration": 20}
     if "table" in session:
         new_array = session['table']
         if ti is not None:

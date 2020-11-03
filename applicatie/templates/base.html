@@ -11,10 +11,14 @@
             <div class="model_box">
                 <div class="input_box">
                     <form class="form" action="#" method="post">
-                        <label class="input_title"> Locatie </label>
-                        <input type="text" class="input_feature" name="locatie">
-                        <label class="input_title"> Tijd </label>
-                        <input type="time" class="input_feature" name="tijd">
+                        <label class="input_title"> Km tot meld </label>
+                        <input type="text" class="input_feature" name="kmtm" required>
+                        <label class="input_title"> Datum </label>
+                        <input type="datetime-local" class="input_feature" name="datum" required>
+                        <label class="input_title"> Prioriteitsindicatie </label>
+                        <input type="text" class="input_feature" name="pi" required>
+                        <label class="input_title"> Oorzaakscode </label>
+                        <input type="text" class="input_feature" name="oc" required>
                         <input type="submit" class="submit_button" value="Bereken">
                     </form>
                 </div>
@@ -47,10 +51,9 @@
                         </tr>
                         {% for row in table %}
                             <tr class="table_row">
-                                {% for item in row %}
-                                    <td class="table_item">{{item}}</td>
-                                {% endfor %}
-                                <td class="duration">20</td>
+                                <td class="location table_item">{{row["location"]}}</td>
+                                <td class="time table_item">{{row["time"]}}</td>
+                                <td class="duration table_item">{{row["duration"]}}</td>
                             </tr>
                         {% endfor %}
                     </table>
