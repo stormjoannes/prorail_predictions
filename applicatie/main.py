@@ -1,7 +1,11 @@
 from flask import Flask, redirect, url_for, render_template, request, session
+# from predictions.main import DecisionTreeRPredict, dtr
 
 app = Flask(__name__)
 app.secret_key = "StormIsDik"
+
+# features_2 = [[10, 12, 2, 120, 432]]
+# DecisionTreeRPredict(dtr, features_2)
 
 
 @app.route("/", methods=["POST", "GET"])
