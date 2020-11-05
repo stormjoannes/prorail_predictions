@@ -10,7 +10,7 @@ app.secret_key = "StormIsDik"
 def home():
     if 'table' not in session:
         session['table'] = []
-        return render_template("base.html", table=session['table'], rmse=round(rmse,1))
+        return render_template("base.html", table=session['table'], rmse=round(rmse))
     else:
         if request.method == "POST":
             pi = int(request.form["pi"])
