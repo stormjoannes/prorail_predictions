@@ -16,7 +16,7 @@ def read_file(file):
 data = read_file('../files/cleaned_data.csv')
 
 
-def DecisionTreeRTrain(features, target, inpYN):
+def DecisionTreeRTrain(features, target):
     x = features
     y = target
 
@@ -30,29 +30,29 @@ def DecisionTreeRTrain(features, target, inpYN):
     rmse = np.sqrt(mean_squared_error(y_test, y_pred))
 
     stdv = stt.stdev(y_pred)
-    print('stdv', stdv)
+    gemm = numpy.mean(y_pred)
 
-    if len(inpYN) > 0:
-        betrouwbaarheid = inputFeatures(inpYN, decision_tree_r, numpy.mean(y_pred), stdv)
-
-    return decision_tree_r, rmse, betrouwbaarheid
+    return decision_tree_r, rmse, stdv, gemm
 
 
-def inputFeatures(features, decision_tree_r, gemm, stdv):
+def inputFeatures(features, decision_tree_r, stdv, gemm):
     features = np.reshape([features], (-1, 1)).T
     inpPredict = decision_tree_r.predict(features)
     zScore = (inpPredict - gemm) / stdv
 
-    print('Z-score', zScore)
-    print('betrouwbaarheid', st.norm.cdf(zScore) * 100, ' %')
+    betrouwbaarheid = st.norm.cdf(zScore) * 100
+
+    return betrouwbaarheid
 
 
-def DecisionTreeRPredict(tree, features):
+def DecisionTreeRPredict(tree, features, stdv, gemm):
     x = features
 
     prediction = tree.predict(x)
 
-    return prediction
+    betrouwbaarheid = inputFeatures(features, tree, stdv, gemm)
+
+    return prediction, betrouwbaarheid
 
 
 featureList = ['month', 'hour', 'stm_prioriteit', 'stm_km_tot_mld', 'stm_oorz_code']
@@ -62,4 +62,4 @@ data = data.dropna(subset=featureList)
 features = data[featureList]
 target = data[["stm_hersteltijd"]]
 
-dtr, rmse = DecisionTreeRTrain(features, target, '')
+dtr, rmse, stdv, gemm = DecisionTreeRTrain(features, target)

@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request, session
 import datetime as dt
-from predictions.main import DecisionTreeRPredict, dtr, rmse
+from predictions.main import DecisionTreeRPredict, dtr, rmse, stdv, gemm
 
 app = Flask(__name__)
 app.secret_key = "StormIsDik"
@@ -64,7 +64,7 @@ def get_prediction(features, date_values):
     for i in features:
         all_features.append(i)
 
-    pred = DecisionTreeRPredict(dtr, [all_features])
+    pred = DecisionTreeRPredict(dtr, [all_features], stdv, gemm)
 
     pred = str(pred).lstrip('[').rstrip(']')
 
