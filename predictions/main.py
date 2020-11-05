@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import train_test_split
 import scipy.stats as st
@@ -40,9 +40,9 @@ def inputFeatures(features, decision_tree_r, stdv, gemm):
     inpPredict = decision_tree_r.predict(features)
     zScore = (inpPredict - gemm) / stdv
 
-    betrouwbaarheid = st.norm.cdf(zScore) * 100
+    trust = st.norm.cdf(zScore) * 100
 
-    return betrouwbaarheid
+    return trust
 
 
 def DecisionTreeRPredict(tree, features, stdv, gemm):
@@ -50,9 +50,9 @@ def DecisionTreeRPredict(tree, features, stdv, gemm):
 
     prediction = tree.predict(x)
 
-    betrouwbaarheid = inputFeatures(features, tree, stdv, gemm)
+    trust = inputFeatures(features, tree, stdv, gemm)
 
-    return prediction, betrouwbaarheid
+    return prediction, trust
 
 
 featureList = ['month', 'hour', 'stm_prioriteit', 'stm_km_tot_mld', 'stm_oorz_code']

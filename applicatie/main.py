@@ -1,16 +1,19 @@
 from flask import Flask, redirect, url_for, render_template, request, session
 import datetime as dt
-from predictions.main import DecisionTreeRPredict, dtr, rmse, stdv, gemm
+import pandas as pd
+from predictions.main import DecisionTreeRPredict,  dtr, rmse, stdv, gemm
 
 app = Flask(__name__)
 app.secret_key = "StormIsDik"
+
+oc_codes = pd.read_table('../files/Oorzaakcodes.csv')
 
 
 @app.route("/", methods=["POST", "GET"])
 def home():
     if 'table' not in session:
         session['table'] = []
-        return render_template("base.html", table=session['table'], rmse=round(rmse))
+        return render_template("base.html", table=session['table'], rmse=round(rmse, 1), oc_codes=oc_codes)
     else:
         if request.method == "POST":
             pi = int(request.form["pi"])
@@ -21,14 +24,16 @@ def home():
             date_values = split_date(['h', 'm'], date)
             features = [pi, distance, oc]
 
-            pred = get_prediction(features, date_values)
+            pred, trust = get_prediction(features, date_values)
 
             table_dict = {"pred": pred, "pi": pi, "date": date, "distance": distance, "oc": oc}
             add_to_table(table_dict)
 
-            return render_template("base.html", pred=pred, pi=pi, hour=date_values[1], month=date_values[0], distance=distance, oc=oc, rmse=round(rmse, 1), table=session['table'])
+            return render_template("base.html", pred=pred, pi=pi, hour=date_values[1], month=date_values[0],
+                                   distance=distance, oc=oc, rmse=round(rmse, 1), trust=trust,  table=session['table'],
+                                   oc_codes=oc_codes)
         else:
-            return render_template("base.html", table=session['table'], rmse=round(rmse,1))
+            return render_template("base.html", table=session['table'], rmse=round(rmse, 1), oc_codes=oc_codes)
 
 
 def split_date(timestamps, var):
@@ -64,13 +69,13 @@ def get_prediction(features, date_values):
     for i in features:
         all_features.append(i)
 
-    pred = DecisionTreeRPredict(dtr, [all_features], stdv, gemm)
+    pred, trust = DecisionTreeRPredict(dtr, [all_features], stdv, gemm)
 
-    pred = str(pred).lstrip('[').rstrip(']')
+    pred, trust = str(pred).lstrip('[').rstrip(']'), str(trust).lstrip('[').rstrip(']')
 
-    pred = float(pred)
+    pred, trust = float(pred), float(trust)
 
-    return round(pred, 1)
+    return round(pred, 1), round(trust, 1)
 
 
 def add_to_table(features):
@@ -80,9 +85,29 @@ def add_to_table(features):
 
     if "table" in session:
         new_array = session['table']
+        index = len(new_array) + 1
         if ti is not None:
+            ti['index'] = index
             new_array.append(ti)
         session['table'] = new_array
+        return redirect(url_for("home"))
+    else:
+        return redirect(url_for("home"))
+
+
+@app.route("/delete", methods=["POST", "GET"])
+def delete_table():
+    if request.method == "POST":
+        index = request.form['index']
+        current_list = session['table']
+        for i in current_list:
+            if i['index'] == int(index):
+                arr_index = current_list.index(i)
+
+        del current_list[arr_index]
+
+        session['table'] = current_list
+
         return redirect(url_for("home"))
     else:
         return redirect(url_for("home"))

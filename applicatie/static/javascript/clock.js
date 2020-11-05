@@ -3,7 +3,7 @@ const hr = document.querySelector("#hr");
 const mn = document.querySelector("#mn");
 const tg = document.querySelector("#tg");
 var durations = document.getElementsByClassName("duration");
-var times = document.getElementsByClassName("time");
+var dates = document.getElementsByClassName("date");
 
 function getMinute(list, i) {
     var d = new Date(list[i].textContent);
@@ -12,8 +12,8 @@ function getMinute(list, i) {
 
 function createTargetDate() {
     var targets = []
-    for(i=0; i < times.length; i++) {
-        var target_date = new Date(times[i].textContent);
+    for(i=0; i < dates.length; i++) {
+        var target_date = new Date(dates[i].textContent);
         target_date = target_date.setMinutes(target_date.getMinutes() + Number(durations[i].textContent));
         target_date = new Date(target_date);
         targets.push(target_date);
@@ -32,11 +32,15 @@ function checkIfTargetValid() {
 
     else {
         for(i=0; i < targets.length; i++) {
+            let day = targets[i].getDay();
             if(targets[i] >= today) {
-                valid_dates.push(targets[i]);
+                if(day == today.getDay()) {
+                    valid_dates.push(targets[i]);
+                }
             }
         }
 
+        console.log(valid_dates);
         return valid_dates;
     }
 };
@@ -45,11 +49,11 @@ function getClosestTargets() {
     let today = new Date();
     var valid_targets = checkIfTargetValid();
     for(i=0; i < valid_targets.length; i++) {
+        console.log(valid_targets);
         var difference = valid_targets[i] - today;
         difference = difference/1000;
         difference = difference/60;
         var difference_min = Math.floor(difference % 60);
-        console.log(difference_min);
     }
 }
 
@@ -64,4 +68,5 @@ function createClock() {
 };
 
 createClock();
-getClosestTargets();
+checkIfTargetValid();
+//getClosestTargets();

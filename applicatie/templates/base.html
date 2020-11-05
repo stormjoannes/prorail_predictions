@@ -12,13 +12,21 @@
                 <div class="input_box">
                     <form class="form" action="#" method="post">
                         <label class="input_title"> Prioriteitsindicatie </label>
-                        <input type="number" class="input_feature" name="pi" required>
+                        <select class="input_feature dropdown" name="pi">
+                            {% for i in range(0,10) %}
+                                <option value="{{i}}">{{i}}</option>
+                            {% endfor %}
+                        </select>
                         <label class="input_title"> Datum </label>
                         <input type="datetime-local" class="input_feature" name="datum" required>
                         <label class="input_title"> Km tot meld </label>
                         <input type="number" class="input_feature" name="kmtm" required>
                         <label class="input_title"> Oorzaakscode </label>
-                        <input type="number" class="input_feature" name="oc" required>
+                        <select class="input_feature dropdown" name="oc">
+                            {% for index, row in oc_codes.iterrows() %}
+                                <option value="{{row[0][:3]}}">{{row[0].replace(";", "-")}}</option>
+                            {% endfor %}
+                        </select>
                         <input type="submit" class="submit_button" value="Bereken">
                     </form>
                 </div>
@@ -36,8 +44,9 @@
                         {% if not pred %}
                             <p>Er is nog geen voorspelling gemaakt</p>
                         {% else %}
+                            <p>betrouwbaarheid {{trust}}%</p>
                             <p>Gebasseerd op de volgende dingen:</p>
-                            <ul>
+                            <ul class="pred_list">
                                 <li>Prioriteit: {{pi}}</li>
                                 <li>Maand: {{month}}</li>
                                 <li>Uur: {{hour}}</li>
@@ -68,6 +77,7 @@
                             <th class="column_name">Datum</th>
                             <th class="column_name">Km tot Melding</th>
                             <th class="column_name">Oorzaakscode</th>
+                            <th class="column_name">delete</th>
                         </tr>
                         {% for row in table %}
                             <tr class="table_row">
@@ -76,6 +86,11 @@
                                 <td class="date table_item">{{row["date"]}}</td>
                                 <td class="distance table_item">{{row["distance"]}}</td>
                                 <td class="cause table_item">{{row["oc"]}}</td>
+                                <td class="delete table_item">
+                                    <form action="{{url_for('delete_table')}}", method="post">
+                                        <button type=submit name="index" value="{{row['index']}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    </form>
+                                </td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -84,5 +99,5 @@
         </div>
     </body>
     <script type="text/javascript" src="{{ url_for('static', filename='javascript/clock.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='javascript/main.js') }}"></script>
+    <script src="https://use.fontawesome.com/c0f0eb2f29.js"></script>
 </html>
