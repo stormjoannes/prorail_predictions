@@ -65,8 +65,11 @@
                     <div class="min">
                         <div class="mn" id="mn"></div>
                     </div>
-                    <div class="target">
-                        <div class="tg" id="tg"></div>
+                    <div class="target-h">
+                        <div class="th" id="th"></div>
+                    </div>
+                    <div class="target-m">
+                        <div class="tm" id="tm"></div>
                     </div>
                 </div>
                 <div class="table_box">
@@ -83,7 +86,7 @@
                             <tr class="table_row">
                                 <td class="duration table_item">{{row["pred"]}}</td>
                                 <td class="priority table_item">{{row["pi"]}}</td>
-                                <td class="date table_item">{{row["date"]}}</td>
+                                <td class="date table_item" onclick="create_target(this)">{{row["date"]}}</td>
                                 <td class="distance table_item">{{row["distance"]}}</td>
                                 <td class="cause table_item">{{row["oc"]}}</td>
                                 <td class="delete table_item">
