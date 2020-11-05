@@ -29,7 +29,7 @@ def home():
             table_dict = {"pred": pred, "pi": pi, "date": date, "distance": distance, "oc": oc}
             add_to_table(table_dict)
 
-            return render_template("base.html", pred=pred, pi=pi, hour=date_values[1], month=date_values[0],
+            return render_template("base.html", pred=pred, pi=pi, hour=date_values[0], month=date_values[1],
                                    distance=distance, oc=oc, rmse=round(rmse, 1), trust=trust,  table=session['table'],
                                    oc_codes=oc_codes)
         else:
