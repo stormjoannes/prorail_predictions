@@ -4,6 +4,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import train_test_split
 import scipy.stats as st
+import statistics as stt
 import numpy
 
 
@@ -27,6 +28,9 @@ def DecisionTreeRTrain(features, target, inpYN):
     y_pred = decision_tree_r.predict(x_test)
 
     rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+
+    stdv = stt.stdev(y_pred)
+    print('stdv', stdv)
 
     if len(inpYN) > 0:
         betrouwbaarheid = inputFeatures(inpYN, decision_tree_r, numpy.mean(y_pred), stdv)
