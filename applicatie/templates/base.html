@@ -5,7 +5,7 @@
         </head>
     <body>
         <div class="header">
-            <h1>Supercoole titel</h1>
+            <h1>ProRealTime</h1>
         </div>
         <div class="container">
             <div class="model_box">
@@ -88,7 +88,7 @@
                                 <td class="cause table_item">{{row["oc"]}}</td>
                                 <td class="delete table_item">
                                     <form action="{{url_for('delete_table')}}", method="post">
-                                        <button type=submit name="index" value="{{row['index']}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                        <button type=submit class=del_button name="index" value="{{row['index']}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                     </form>
                                 </td>
                             </tr>

@@ -5,11 +5,7 @@ const tg = document.querySelector("#tg");
 var durations = document.getElementsByClassName("duration");
 var dates = document.getElementsByClassName("date");
 
-function getMinute(list, i) {
-    var d = new Date(list[i].textContent);
-    return d.getMinutes();
-}
-
+// de target date is de datum die je was meegegeven plus de duur die het model heeft gegeven
 function createTargetDate() {
     var targets = []
     for(i=0; i < dates.length; i++) {
@@ -30,26 +26,29 @@ function checkIfTargetValid() {
         return [];
     }
 
+    // een target moet dezelfde yaar, maand en dezelfde dag hebben om het voor de clock "valid" te noemen
     else {
         for(i=0; i < targets.length; i++) {
-            let day = targets[i].getDay();
+            let day = targets[i].getDate();
+            let month = targets[i].getMonth();
             if(targets[i] >= today) {
-                if(day == today.getDay()) {
-                    valid_dates.push(targets[i]);
+                if(month == today.getMonth()) {
+                    if(day == today.getDate()) {
+                        valid_dates.push(targets[i]);
+                    }
                 }
             }
         }
-
-        console.log(valid_dates);
         return valid_dates;
     }
 };
 
+// kijk of een target 5 minuten ervan af is zo ja dan maak toon je de target op de clock
 function getClosestTargets() {
     let today = new Date();
     var valid_targets = checkIfTargetValid();
     for(i=0; i < valid_targets.length; i++) {
-        console.log(valid_targets);
+        console.log('valid ' + valid_targets);
         var difference = valid_targets[i] - today;
         difference = difference/1000;
         difference = difference/60;
@@ -57,6 +56,7 @@ function getClosestTargets() {
     }
 }
 
+// met behulp van de constante herhaling van de interval kunnen we de wijzers van de klok laten draaien
 function createClock() {
     setInterval(() => {
         let day = new Date();
@@ -68,5 +68,4 @@ function createClock() {
 };
 
 createClock();
-checkIfTargetValid();
-//getClosestTargets();
+getClosestTargets();

@@ -7,7 +7,7 @@ import scipy.stats as st
 import statistics as stt
 import numpy
 
-
+# simpele functie om een csv bestand mee te lezen (werkt niet voor tabellen (zoals oorzaakcodes.csv))
 def read_file(file):
     dt = pd.read_csv(file, low_memory=False)
     return dt
@@ -15,7 +15,7 @@ def read_file(file):
 
 data = read_file('../files/cleaned_data.csv')
 
-
+# we maken het model en die trainen we gelijk met deze functie
 def DecisionTreeRTrain(features, target):
     x = features
     y = target
@@ -34,7 +34,7 @@ def DecisionTreeRTrain(features, target):
 
     return decision_tree_r, rmse, stdv, gemm
 
-
+# functie gebruikt om de betrouwbaarheid te berekenen
 def inputFeatures(features, decision_tree_r, stdv, gemm):
     features = np.reshape([features], (-1, 1)).T
     inpPredict = decision_tree_r.predict(features)
@@ -44,7 +44,7 @@ def inputFeatures(features, decision_tree_r, stdv, gemm):
 
     return trust
 
-
+# functie die we gebruiken om de features die van de frontend komen in ons model te gooien
 def DecisionTreeRPredict(tree, features, stdv, gemm):
     x = features
 
@@ -54,7 +54,7 @@ def DecisionTreeRPredict(tree, features, stdv, gemm):
 
     return prediction, trust
 
-
+# features voor trainen
 featureList = ['month', 'hour', 'stm_prioriteit', 'stm_km_tot_mld', 'stm_oorz_code']
 
 data = data.dropna(subset=featureList)
@@ -62,4 +62,5 @@ data = data.dropna(subset=featureList)
 features = data[featureList]
 target = data[["stm_hersteltijd"]]
 
+# alle variabelen die gebruikt worden in of een andere functie of in de frontend
 dtr, rmse, stdv, gemm = DecisionTreeRTrain(features, target)
