@@ -11,23 +11,41 @@
             <div class="model_box">
                 <div class="input_box">
                     <form class="form" action="#" method="post">
-                        <label class="input_title"> Km tot meld </label>
-                        <input type="text" class="input_feature" name="kmtm" required>
+                        <label class="input_title"> Prioriteitsindicatie </label>
+                        <input type="number" class="input_feature" name="pi" required>
                         <label class="input_title"> Datum </label>
                         <input type="datetime-local" class="input_feature" name="datum" required>
-                        <label class="input_title"> Prioriteitsindicatie </label>
-                        <input type="text" class="input_feature" name="pi" required>
+                        <label class="input_title"> Km tot meld </label>
+                        <input type="number" class="input_feature" name="kmtm" required>
                         <label class="input_title"> Oorzaakscode </label>
-                        <input type="text" class="input_feature" name="oc" required>
+                        <input type="number" class="input_feature" name="oc" required>
                         <input type="submit" class="submit_button" value="Bereken">
                     </form>
                 </div>
 
                 <div class="output_box">
                     <div class="output_score">
-                        De duur is: XX minuten{% block time %}  {% endblock %}
+                        {% if not pred %}
+                            <p>De duur is: 00 minuten</p>
+                        {% else %}
+                            <p>De duur is: {{pred}}</p>
+                        {% endif %}
                     </div>
-                    <div class="output_text">Gebaseerd op onze features</div>
+                    <div class="output_text">
+                        <p>Ons voorspellingsmodel heeft een gemiddelde afwijking van {{rmse}}. Houd hier rekening mee</p>
+                        {% if not pred %}
+                            <p>Er is nog geen voorspelling gemaakt</p>
+                        {% else %}
+                            <p>Gebasseerd op de volgende dingen:</p>
+                            <ul>
+                                <li>Prioriteit: {{pi}}</li>
+                                <li>Maand: {{month}}</li>
+                                <li>Uur: {{hour}}</li>
+                                <li>Afstand tot melding/incident: {{distance}}</li>
+                                <li>Oorzaakscode: {{oc}}</li>
+                            </ul>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
             <div class="vis_block">
@@ -45,15 +63,19 @@
                 <div class="table_box">
                     <table class="table">
                         <tr class="table_header">
-                            <th class="column_name">Feature 1</th>
-                            <th class="column_name">Feature 2</th>
-                            <th class="column_name">Feature 3</th>
+                            <th class="column_name">Duur</th>
+                            <th class="column_name">Prioriteit</th>
+                            <th class="column_name">Datum</th>
+                            <th class="column_name">Km tot Melding</th>
+                            <th class="column_name">Oorzaakscode</th>
                         </tr>
                         {% for row in table %}
                             <tr class="table_row">
-                                <td class="location table_item">{{row["location"]}}</td>
-                                <td class="time table_item">{{row["time"]}}</td>
-                                <td class="duration table_item">{{row["duration"]}}</td>
+                                <td class="duration table_item">{{row["pred"]}}</td>
+                                <td class="priority table_item">{{row["pi"]}}</td>
+                                <td class="date table_item">{{row["date"]}}</td>
+                                <td class="distance table_item">{{row["distance"]}}</td>
+                                <td class="cause table_item">{{row["oc"]}}</td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -62,4 +84,5 @@
         </div>
     </body>
     <script type="text/javascript" src="{{ url_for('static', filename='javascript/clock.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/main.js') }}"></script>
 </html>

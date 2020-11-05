@@ -4,8 +4,6 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import train_test_split
 
-#inlezen data
-
 
 def read_file(file):
     dt = pd.read_csv(file, low_memory=False)
@@ -25,13 +23,10 @@ def DecisionTreeRTrain(features, target):
     decision_tree_r.fit(x_train, y_train)
 
     y_pred = decision_tree_r.predict(x_test)
-    print(y_pred)
-    print(y_test)
 
-    print('score ', r2_score(y_test, y_pred))
-    print('rmse ', np.sqrt(mean_squared_error(y_test, y_pred)))
+    rmse = np.sqrt(mean_squared_error(y_test, y_pred))
 
-    return decision_tree_r
+    return decision_tree_r, rmse
 
 
 def DecisionTreeRPredict(tree, features):
@@ -39,7 +34,7 @@ def DecisionTreeRPredict(tree, features):
 
     prediction = tree.predict(x)
 
-    print(prediction)
+    return prediction
 
 
 featureList = ['month', 'hour', 'stm_prioriteit', 'stm_km_tot_mld', 'stm_oorz_code']
@@ -49,4 +44,4 @@ data = data.dropna(subset=featureList)
 features = data[featureList]
 target = data[["stm_hersteltijd"]]
 
-dtr = DecisionTreeRTrain(features, target)
+dtr, rmse = DecisionTreeRTrain(features, target)

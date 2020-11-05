@@ -28,14 +28,16 @@ data = select_columns(["#stm_sap_meldnr", "stm_sap_meld_ddt", "stm_geo_mld", "st
 
 data['stm_aanntpl_tijd_merge'] = data['stm_aanntpl_dd'] + ' ' + data['stm_aanntpl_tijd']
 
-data['stm_aanntpl_tijd_merge'] = pd.to_datetime(data['stm_aanntpl_tijd_merge'])
-data['stm_fh_ddt'] = pd.to_datetime(data['stm_fh_ddt'])
-data['stm_sap_meld_ddt'] = pd.to_datetime(data['stm_sap_meld_ddt'])
-data['stm_sap_storeind_ddt'] = pd.to_datetime(data['stm_sap_storeind_ddt'])
-data['stm_sap_melddatum'] = pd.to_datetime(data['stm_sap_melddatum'])
-data['stm_aanngeb_dd'] = pd.to_datetime(data['stm_aanngeb_dd'])
 
-data['stm_sap_storeinddatum'] = pd.to_datetime(data['stm_sap_storeinddatum'])
+def stringToDatetime(column):
+    data[column] = pd.to_datetime(data[column])
+
+
+toConvertList = ['stm_aanntpl_tijd_merge', 'stm_fh_ddt', 'stm_sap_meld_ddt',
+                 'stm_sap_storeind_ddt', 'stm_sap_melddatum', 'stm_aanngeb_dd', 'stm_sap_storeinddatum']
+
+for i in toConvertList:
+    stringToDatetime(i)
 
 data['stm_hersteltijd'] = (data['stm_fh_ddt'] - data['stm_aanntpl_tijd_merge']).astype('timedelta64[m]')
 
@@ -59,10 +61,6 @@ data = data[data['stm_hersteltijd'].notna()]
 dropData("stm_fh_duur", '<', 3)
 dropData("stm_hersteltijd", '<', 0)
 dropData("stm_hersteltijd", '>', 360)
-
-
-def stringToDatetime(column):
-    data[column] = pd.to_datetime(data[column])
 
 
 data.to_csv('cleaned_data.csv', index=False)

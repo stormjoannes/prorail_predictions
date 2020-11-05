@@ -30,7 +30,7 @@ body {
 
 .input_box {
     background: rgba(192,192,192,.3);
-    height: 50%;
+    height: 60%;
     width: 75%;
     margin: 0 auto;
     border-radius: 5px;
@@ -45,14 +45,14 @@ body {
 }
 
 .input_title {
-    margin: 5px 0 0 5%;
+    margin: 3px 0 0 5%;
 }
 
 .input_feature {
     width: 75%;
     border: none;
-    margin: 10px 0 0 5%;
-    padding: 10px;
+    margin: 5px 0 0 5%;
+    padding: 7px;
     border-radius: 5px;
 }
 
