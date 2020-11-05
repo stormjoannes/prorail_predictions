@@ -3,6 +3,8 @@ import numpy as np
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import train_test_split
+import scipy.stats as st
+import numpy
 
 
 def read_file(file):
@@ -13,7 +15,7 @@ def read_file(file):
 data = read_file('../files/cleaned_data.csv')
 
 
-def DecisionTreeRTrain(features, target):
+def DecisionTreeRTrain(features, target, inpYN):
     x = features
     y = target
 
@@ -26,7 +28,19 @@ def DecisionTreeRTrain(features, target):
 
     rmse = np.sqrt(mean_squared_error(y_test, y_pred))
 
-    return decision_tree_r, rmse
+    if len(inpYN) > 0:
+        betrouwbaarheid = inputFeatures(inpYN, decision_tree_r, numpy.mean(y_pred), stdv)
+
+    return decision_tree_r, rmse, betrouwbaarheid
+
+
+def inputFeatures(features, decision_tree_r, gemm, stdv):
+    features = np.reshape([features], (-1, 1)).T
+    inpPredict = decision_tree_r.predict(features)
+    zScore = (inpPredict - gemm) / stdv
+
+    print('Z-score', zScore)
+    print('betrouwbaarheid', st.norm.cdf(zScore) * 100, ' %')
 
 
 def DecisionTreeRPredict(tree, features):
@@ -44,4 +58,4 @@ data = data.dropna(subset=featureList)
 features = data[featureList]
 target = data[["stm_hersteltijd"]]
 
-dtr, rmse = DecisionTreeRTrain(features, target)
+dtr, rmse = DecisionTreeRTrain(features, target, '')
