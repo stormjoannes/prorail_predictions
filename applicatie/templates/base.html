@@ -36,7 +36,7 @@
                         {% if not pred %}
                             <p>De duur is: 00 minuten</p>
                         {% else %}
-                            <p>De duur is: {{pred}}</p>
+                            <p>De duur is: {{pred}} het zal dan eindigen om {{target_date}}</p>
                         {% endif %}
                     </div>
                     <div class="output_text">
@@ -74,7 +74,7 @@
                         <tr class="table_header">
                             <th class="column_name">Duur</th>
                             <th class="column_name">Prioriteit</th>
-                            <th class="column_name">Datum</th>
+                            <th class="column_name">Einddatum</th>
                             <th class="column_name">Km tot Melding</th>
                             <th class="column_name">Oorzaakscode</th>
                             <th class="column_name">delete</th>

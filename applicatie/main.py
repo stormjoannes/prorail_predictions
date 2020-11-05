@@ -21,7 +21,7 @@ def home():
         if request.method == "POST":
             # vorm inputs individueel ophalen om makkelijker individueel te tonen
             pi = int(request.form["pi"])
-            date = request.form["datum"].replace('T', " ")
+            date = dt.datetime.strptime(request.form["datum"].replace('T', " "), "%Y-%m-%d %H:%M")
             distance = int(request.form["kmtm"])
             oc = int(request.form["oc"])
 
@@ -31,13 +31,14 @@ def home():
             features = [pi, distance, oc]
 
             pred, trust = get_prediction(features, date_values)
+            target_date = date + dt.timedelta(minutes=pred)
 
             # table dict en add to tables is voor de visualisatie
-            table_dict = {"pred": pred, "pi": pi, "date": date, "distance": distance, "oc": oc}
+            table_dict = {"pred": pred, "pi": pi, "date": target_date, "distance": distance, "oc": oc}
             add_to_table(table_dict)
 
             # dit doen we om alles te tonen bij de duur zoals de betrouwbaarheid, rmse en features
-            return render_template("base.html", pred=pred, pi=pi, hour=date_values[0], month=date_values[1],
+            return render_template("base.html", pred=pred, pi=pi, hour=date_values[0], month=date_values[1], target_date=target_date,
                                    distance=distance, oc=oc, rmse=round(rmse, 1), trust=trust,  table=session['table'],
                                    oc_codes=oc_codes)
         else:
@@ -45,25 +46,25 @@ def home():
 
 
 def split_date(timestamps, var):
-    if not isinstance(var, dt.datetime):
-        date = dt.datetime.strptime(var, "%Y-%m-%d %H:%M")
-        values = []
-        # eigenlijk een switch case
-        for i in timestamps:
-            if i == "y":
-                stamp = date.year
-            elif i == "m":
-                stamp = date.month
-            elif i == "d":
-                stamp = date.day
-            elif i == "h":
-                stamp = date.hour
-            else:
-                stamp = date.minute
+    # if not isinstance(var, dt.datetime):
+    #     # date = dt.datetime.strptime(var, "%Y-%m-%d %H:%M")
+    values = []
+    # eigenlijk een switch case
+    for i in timestamps:
+        if i == "y":
+            stamp = var.year
+        elif i == "m":
+            stamp = var.month
+        elif i == "d":
+            stamp = var.day
+        elif i == "h":
+            stamp = var.hour
+        else:
+            stamp = var.minute
 
-            values.append(stamp)
+        values.append(stamp)
 
-        return values
+    return values
 
 
 def get_prediction(features, date_values):
