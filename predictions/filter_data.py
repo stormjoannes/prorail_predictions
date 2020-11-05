@@ -1,8 +1,12 @@
 import pandas as pd
 import numpy as np
-from predictions.main import read_file
 
-# We gebruiken hier de readfile functie van de main.py om de database in te lezen
+
+def read_file(file):
+    dt = pd.read_csv(file, low_memory=False)
+    return dt
+
+
 data = read_file('../files/sap_storing_data_hu_project.csv')
 
 
